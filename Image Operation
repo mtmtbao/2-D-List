@@ -1,0 +1,89 @@
+# Author: Mengting Bao (mtbao@bu.edu),06/09/2022
+# Description: This file contains function of images as 2-D lists
+
+from hmcpng import *
+
+def create_uniform_image(height, width, pixel):
+    """ creates and returns a 2-D list of pixels with height rows and
+        width columns in which all of the pixels have the RGB values
+        given by pixel
+        inputs: height and width are non-negative integers
+                pixel is a 1-D list of RBG values of the form [R,G,B],
+                     where each element is an integer between 0 and 255.
+    """
+    pixels = []
+    
+    for r in range(height):
+        row = [pixel] * width
+        pixels += [row]
+
+    return pixels
+
+
+
+def blank_image(height, width):
+    """ creates and returns a 2-D list of pixels with height rows and width columns in which all of the pixels are green
+    """
+    blank = create_uniform_image(height, width, [0, 255, 0])
+    return blank
+
+
+
+
+def flip_horiz(pixels):
+    """ creates and returns a new 2-D list of pixels for an image in which the original image is “flipped” horizontally
+    """
+    height = len(pixels)
+    width = len(pixels[0])
+    horiz_pixels = create_uniform_image(height, width, [0, 0, 0])
+    
+    for r in range(height):
+        for c in range(width):
+            horiz_pixels[r][c] = pixels[r][width - 1 - c]
+    return horiz_pixels
+
+
+
+
+def flip_vert(pixels):
+    """ creates and returns a new 2-D list of pixels for an image in which the original image is “flipped” vertically
+    """
+    height = len(pixels)
+    width = len(pixels[0])
+    vert_pixels = create_uniform_image(height, width, [0, 0, 0])
+    
+    for r in range(height):
+        for c in range(width):
+            vert_pixels[r][c] = pixels[height - 1 - r][c]
+    return vert_pixels
+
+
+
+def transpose(pixels):
+    """ creates and returns a new 2-D list that is the transpose of pixels
+    """
+    height = len(pixels[0])
+    width = len(pixels)
+    transp_pixels = create_uniform_image(height, width, [0, 0, 0])
+    
+    for r in range(height):
+        for c in range(width):
+            transp_pixels[r][c] = pixels[c][r]
+    return transp_pixels
+
+
+
+
+def rotate_clockwise(pixels):
+    """ rotate the original image clockwise by 90 degrees
+    """
+    clockwise_pixels = flip_horiz(transpose(pixels))
+    return clockwise_pixels
+        
+    
+            
+def rotate_counterclockwise(pixels):
+    """ rotate the original image counterclockwise by 90 degrees
+    """
+    counterclockwise_pixels = flip_vert(transpose(pixels))
+    return counterclockwise_pixels
